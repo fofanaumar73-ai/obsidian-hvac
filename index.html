@@ -328,12 +328,22 @@ img {
 ========================================= */
 
 .navbar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 9999;
     padding: 28px 0;
+    background: transparent;
+    transition: all .4s ease;
+}
+
+.navbar.scrolled {
+    padding: 16px 0;
+    background: rgba(9,9,9,.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(240,120,40,.25);
 }
 
 .nav-inner {
@@ -1320,6 +1330,72 @@ footer {
 
 }
 
+   /* HERO LAYERING FIX */
+
+.hero {
+    position: relative;
+    isolation: isolate;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hero-grid,
+.hero-glow,
+#heroParticles {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 4;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 4;
+}
+
+.hero-bottom {
+    z-index: 4;
+}
+
+.intro {
+    position: relative;
+    z-index: 5;
+    background: #090909;
+}
+
+.hero h1 {
+    font-family: var(--font);
+    font-size: clamp(65px, 9vw, 130px);
+    line-height: .92;
+    letter-spacing: -8px;
+    font-weight: 800;
+}
+
+@media(max-width: 600px) {
+    .hero h1 {
+        font-size: clamp(48px, 12vw, 76px);
+        letter-spacing: -4px;
+    }
+}
+   
 </style>
 </head>
 
@@ -1416,6 +1492,8 @@ footer {
 ========================================= -->
 
 <main>
+
+<section class="hero" id="home">
 
 <div class="hero-bg">
     <img
