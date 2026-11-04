@@ -699,13 +699,47 @@ img {
     color: var(--orange);
 }
 
+
 /* =========================================
-   08. SERVICES
+   08. SERVICES — OBSIDIAN HVAC
 ========================================= */
 
 .services {
-    background: #101010;
+    position: relative;
+    isolation: isolate;
+    background:
+        radial-gradient(
+            ellipse at 18% 18%,
+            rgba(240,120,40,.09),
+            transparent 34%
+        ),
+        #0b0b0b;
     overflow: hidden;
+}
+
+.services::before,
+.services::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 520px;
+    height: 220px;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .13;
+    pointer-events: none;
+}
+
+.services::before {
+    top: 8%;
+    right: -220px;
+    background: var(--orange);
+}
+
+.services::after {
+    bottom: 2%;
+    left: -260px;
+    background: #b94a13;
 }
 
 .section-top {
@@ -713,67 +747,287 @@ img {
     justify-content: space-between;
     align-items: end;
     gap: 40px;
-    margin-bottom: 65px;
+    margin-bottom: 58px;
+}
+
+.services .section-heading {
+    max-width: 700px;
+    line-height: .98;
+    letter-spacing: -3px;
+}
+
+.services .section-description {
+    max-width: 360px;
+    line-height: 1.8;
 }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
 }
 
 .service-card {
-    min-height: 390px;
+    --service-image: none;
+
     position: relative;
-    background: #1b1b1b;
-    border: 1px solid var(--border);
+    isolation: isolate;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    min-height: 310px;
+    padding: 28px;
+
     overflow: hidden;
-    padding: 32px;
+
+    border: 1px solid rgba(240,120,40,.32);
+    border-radius: 18px;
+
+    background-color: #171717;
+    background-image: var(--service-image);
+    background-size: cover;
+    background-position: center;
+
     transform-style: preserve-3d;
-    transition: border-color .4s, background .4s;
+
+    transition:
+        transform .45s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
 }
+
+/* Dark gradient overlay */
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,8,8,.97) 0%,
+            rgba(8,8,8,.82) 43%,
+            rgba(8,8,8,.18) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(8,8,8,.55),
+            transparent 60%
+        );
+
+    transition: background .4s ease;
+}
+
+/* Orange glowing bottom line */
+
+.service-card::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: 0;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--orange),
+            transparent
+        );
+
+    opacity: .75;
+}
+
+/* Hover animation */
 
 .service-card:hover {
+    transform: translateY(-7px);
+
     border-color: var(--orange);
-    background: #202020;
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.35),
+        0 0 24px rgba(240,120,40,.10);
 }
+
+.service-card:hover::before {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,8,8,.94) 0%,
+            rgba(8,8,8,.72) 40%,
+            rgba(8,8,8,.08) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(8,8,8,.45),
+            transparent 60%
+        );
+}
+
+/* Service number */
 
 .service-number {
-    color: var(--orange);
-    font-size: 12px;
-    letter-spacing: 2px;
+    position: absolute;
+    top: 25px;
+    left: 28px;
+
+    color: var(--orange-light);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
+
+/* Service icon */
 
 .service-icon {
-    margin: 65px 0 30px;
-    font-size: 36px;
+    display: grid;
+    place-items: center;
+
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 18px;
+
+    border: 1px solid rgba(240,120,40,.75);
+    border-radius: 13px;
+
+    background: rgba(10,10,10,.72);
+
     color: var(--orange);
+    font-size: 25px;
+
+    box-shadow: 0 0 22px rgba(240,120,40,.10);
 }
+
+/* Service title */
 
 .service-card h3 {
+    max-width: 90%;
+    margin-bottom: 11px;
+
     font-family: var(--font);
-    font-size: 23px;
-    margin-bottom: 15px;
+    font-size: clamp(19px, 1.7vw, 23px);
+    line-height: 1.2;
 }
 
+/* Service description */
+
 .service-card p {
+    max-width: 245px;
+
+    color: rgba(245,242,237,.78);
+
     font-size: 13px;
-    color: var(--muted);
-    line-height: 1.8;
+    line-height: 1.75;
 }
+
+/* Arrow button */
 
 .service-arrow {
     position: absolute;
-    right: 30px;
-    bottom: 30px;
+    right: 25px;
+    bottom: 24px;
+
+    display: grid;
+    place-items: center;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid var(--orange);
+    border-radius: 50%;
+
     color: var(--orange);
     font-size: 22px;
-    transition: transform .3s;
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        color .3s ease;
 }
 
 .service-card:hover .service-arrow {
-    transform: translate(6px,-6px);
+    transform: translateX(5px);
+
+    background: var(--orange);
+    color: #090909;
 }
+
+/* Individual service images */
+
+.service-card--cooling {
+    --service-image: url("assets/air-conditioning.jpg");
+}
+
+.service-card--ventilation {
+    --service-image: url("assets/air-ventilation.jpg");
+}
+
+.service-card--installation {
+    --service-image: url("assets/system-installation.jpg");
+}
+
+.service-card--maintenance {
+    --service-image: url("assets/system-maintenance.jpg");
+}
+
+.service-card--commercial {
+    --service-image: url("assets/commercial-hvac.jpg");
+}
+
+.service-card--consulting {
+    --service-image: url("assets/climate-consulting.jpg");
+}
+
+/* Tablet layout */
+
+@media(max-width: 900px) {
+    .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .service-card {
+        min-height: 320px;
+    }
+}
+
+/* Mobile layout */
+
+@media(max-width: 600px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card {
+        min-height: 310px;
+        padding: 25px;
+    }
+
+    .service-number {
+        left: 25px;
+    }
+
+    .services .section-heading {
+        letter-spacing: -2px;
+    }
+
+    .section-top {
+        display: block;
+    }
+
+    .section-top .section-description {
+        margin-top: 20px;
+    }
+}
+
 
 /* =========================================
    09. TECHNOLOGY SECTION
