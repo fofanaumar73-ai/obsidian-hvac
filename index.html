@@ -2737,7 +2737,11 @@ const hero = document.querySelector('.hero');
 const particleCanvas = document.getElementById('heroParticles');
 const heroGlow = document.getElementById('heroGlow');
 
-const ctx = particleCanvas.getContext('2d');
+const ctx = particleCanvas?.getContext('2d');
+
+if (!hero || !particleCanvas || !heroGlow || !ctx) {
+    console.warn('Hero animation elements are missing.');
+} else {
 
 const reducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
@@ -2857,6 +2861,7 @@ if (finePointer) {
 
     });
 
+}
 }
 
 /* Floating navigation */
