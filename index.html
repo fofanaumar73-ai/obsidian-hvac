@@ -1657,6 +1657,181 @@ footer {
         letter-spacing: -4px;
     }
 }
+
+   
+/* =========================================
+   09. PROJECTS / OUR PORTFOLIO
+========================================= */
+
+.projects-section {
+    position: relative;
+    overflow: hidden;
+    background: #0b0b0b;
+}
+
+.projects-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+    margin-bottom: 45px;
+}
+
+.projects-heading h2 {
+    max-width: 650px;
+    font-size: clamp(38px, 5vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+}
+
+.projects-heading p {
+    max-width: 350px;
+    color: #aaa;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+    border: 1px solid rgba(240,120,40,.28);
+    border-radius: 16px;
+    background: #171717;
+    transition: .4s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-7px);
+    border-color: var(--orange);
+    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+}
+
+.project-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .7s ease;
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.08);
+}
+
+.project-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(5,5,5,.97) 0%,
+        rgba(5,5,5,.68) 42%,
+        rgba(5,5,5,.05) 100%
+    );
+}
+
+.project-content {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 25px;
+    z-index: 2;
+}
+
+.project-tag {
+    display: inline-block;
+    margin-bottom: 13px;
+    padding: 7px 12px;
+    border: 1px solid rgba(240,120,40,.65);
+    border-radius: 30px;
+    color: var(--orange-light);
+    background: rgba(10,10,10,.65);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.project-content h3 {
+    margin-bottom: 9px;
+    font-size: 21px;
+    color: #fff;
+}
+
+.project-content p {
+    max-width: 290px;
+    color: rgba(255,255,255,.75);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    color: var(--orange-light);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .3s ease;
+}
+
+.project-link:hover {
+    gap: 16px;
+    color: #fff;
+}
+
+.project-link span {
+    font-size: 19px;
+}
+
+.project-demo-note {
+    margin-top: 25px;
+    color: #777;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* Tablet */
+
+@media(max-width: 900px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-card {
+        min-height: 320px;
+    }
+}
+
+/* Mobile */
+
+@media(max-width: 600px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .projects-heading {
+        display: block;
+    }
+
+    .projects-heading p {
+        margin-top: 18px;
+    }
+
+    .project-card {
+        min-height: 330px;
+    }
+}
+
    
 </style>
 </head>
@@ -2065,6 +2240,268 @@ footer {
 
 </section>
 
+
+   
+<!-- =========================================
+     OUR PROJECTS / PORTFOLIO
+========================================= -->
+
+<section class="projects-section section" id="projects">
+
+    <div class="container">
+
+        <div class="projects-heading reveal">
+
+            <div>
+                <span class="section-label">
+                    03 / OUR SELECTED PROJECTS
+                </span>
+
+                <h2>
+                    Engineered Spaces.
+                    <span class="orange">Proven Results.</span>
+                </h2>
+            </div>
+
+            <p>
+                Explore our HVAC project concepts,
+                showcasing the installations,
+                infrastructure and climate solutions
+                we are equipped to deliver.
+            </p>
+
+        </div>
+
+
+        <div class="projects-grid">
+
+
+            <!-- PROJECT 1 -->
+
+            <article class="project-card reveal">
+
+                <img
+                    class="project-image"
+                    src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=85"
+                    alt="Modern commercial building"
+                    loading="lazy"
+                >
+
+                <div class="project-overlay"></div>
+
+                <div class="project-content">
+
+                    <span class="project-tag">
+                        Demo Project / 01
+                    </span>
+
+                    <h3>Commercial HVAC Installation</h3>
+
+                    <p>
+                        A commercial climate infrastructure
+                        concept designed for efficient
+                        indoor temperature control.
+                    </p>
+
+                    <a href="#contact" class="project-link">
+                        Explore Project <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROJECT 2 -->
+
+            <article class="project-card reveal">
+
+                <img
+                    class="project-image"
+                    src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=85"
+                    alt="Modern office interior"
+                    loading="lazy"
+                >
+
+                <div class="project-overlay"></div>
+
+                <div class="project-content">
+
+                    <span class="project-tag">
+                        Demo Project / 02
+                    </span>
+
+                    <h3>Office Climate Solutions</h3>
+
+                    <p>
+                        A workspace climate concept focused
+                        on comfort, temperature balance
+                        and indoor air quality.
+                    </p>
+
+                    <a href="#contact" class="project-link">
+                        Explore Project <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROJECT 3 -->
+
+            <article class="project-card reveal">
+
+                <img
+                    class="project-image"
+                    src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1000&q=85"
+                    alt="Technical installation work"
+                    loading="lazy"
+                >
+
+                <div class="project-overlay"></div>
+
+                <div class="project-content">
+
+                    <span class="project-tag">
+                        Demo Project / 03
+                    </span>
+
+                    <h3>Ventilation Infrastructure</h3>
+
+                    <p>
+                        An airflow engineering concept
+                        for improved ventilation and
+                        indoor environmental quality.
+                    </p>
+
+                    <a href="#contact" class="project-link">
+                        Explore Project <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROJECT 4 -->
+
+            <article class="project-card reveal">
+
+                <img
+                    class="project-image"
+                    src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1000&q=85"
+                    alt="Technical maintenance work"
+                    loading="lazy"
+                >
+
+                <div class="project-overlay"></div>
+
+                <div class="project-content">
+
+                    <span class="project-tag">
+                        Demo Project / 04
+                    </span>
+
+                    <h3>HVAC System Maintenance</h3>
+
+                    <p>
+                        A maintenance service concept
+                        focused on equipment inspection,
+                        reliability and system performance.
+                    </p>
+
+                    <a href="#contact" class="project-link">
+                        Explore Project <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROJECT 5 -->
+
+            <article class="project-card reveal">
+
+                <img
+                    class="project-image"
+                    src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=85"
+                    alt="Large commercial workspace"
+                    loading="lazy"
+                >
+
+                <div class="project-overlay"></div>
+
+                <div class="project-content">
+
+                    <span class="project-tag">
+                        Demo Project / 05
+                    </span>
+
+                    <h3>Commercial Climate Planning</h3>
+
+                    <p>
+                        A commercial building climate
+                        planning concept with a focus
+                        on efficient system design.
+                    </p>
+
+                    <a href="#contact" class="project-link">
+                        Explore Project <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PROJECT 6 -->
+
+            <article class="project-card reveal">
+
+                <img
+                    class="project-image"
+                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=1000&q=85"
+                    alt="Technical planning and consultation"
+                    loading="lazy"
+                >
+
+                <div class="project-overlay"></div>
+
+                <div class="project-content">
+
+                    <span class="project-tag">
+                        Demo Project / 06
+                    </span>
+
+                    <h3>Climate Consulting</h3>
+
+                    <p>
+                        A planning and consultation concept
+                        focused on HVAC recommendations
+                        and performance optimisation.
+                    </p>
+
+                    <a href="#contact" class="project-link">
+                        Explore Project <span>→</span>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+        <p class="project-demo-note">
+            * Images and project descriptions are illustrative demo content,
+            not verified records of completed client projects.
+        </p>
+
+    </div>
+
+</section>
 
 
 <!-- =========================================
