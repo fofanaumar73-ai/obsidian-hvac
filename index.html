@@ -428,6 +428,112 @@ img {
         linear-gradient(0deg, #090909, transparent 45%);
 }
 
+   
+/* =========================================
+   CINEMATIC HERO ATMOSPHERE
+========================================= */
+
+.hero {
+    isolation: isolate;
+}
+
+/* Animated technical grid */
+
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(rgba(240,120,40,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,120,40,.055) 1px, transparent 1px);
+
+    background-size: 75px 75px;
+
+    mask-image: linear-gradient(
+        90deg,
+        transparent,
+        black 30%,
+        black 80%,
+        transparent
+    );
+
+    opacity: .35;
+
+    animation: gridDrift 25s linear infinite;
+}
+
+@keyframes gridDrift {
+    from { background-position: 0 0; }
+    to { background-position: 75px 75px; }
+}
+
+/* Interactive orange lighting */
+
+.hero-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    background: radial-gradient(
+        450px circle at var(--glow-x, 70%) var(--glow-y, 50%),
+        rgba(240,120,40,.15),
+        transparent 70%
+    );
+
+    mix-blend-mode: screen;
+}
+
+/* Floating particle canvas */
+
+#heroParticles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Make hero content appear above effects */
+
+.hero-content {
+    position: relative;
+    z-index: 4;
+}
+
+.hero-bottom {
+    z-index: 4;
+}
+
+/* More dramatic headline */
+
+.hero h1 {
+    text-shadow: 0 10px 50px rgba(0,0,0,.35);
+}
+
+.hero h1 span {
+    text-shadow: 0 0 45px rgba(240,120,40,.16);
+}
+
+/* Premium navigation after scrolling */
+
+.navbar {
+    transition: background .4s, padding .4s, border-color .4s;
+}
+
+.navbar.scrolled {
+    position: fixed;
+    padding: 16px 0;
+    background: rgba(9,9,9,.83);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(240,120,40,.18);
+}
+
+
 .hero-content {
     position: relative;
     z-index: 3;
@@ -1311,16 +1417,22 @@ footer {
 
 <main>
 
-<section class="hero" id="home">
-
-    <div class="hero-bg">
-        <img
-            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=90"
-            alt="Modern architectural interior"
-        >
-    </div>
+<div class="hero-bg">
+    <img
+        src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=2200&q=90"
+        alt="Professional HVAC technician working on climate systems"
+    >
+</div>
 
     <div class="hero-shade"></div>
+
+   <!-- CINEMATIC ATMOSPHERE -->
+
+<div class="hero-grid"></div>
+
+<div class="hero-glow" id="heroGlow"></div>
+
+<canvas id="heroParticles"></canvas>
 
     <div class="container">
 
@@ -2536,6 +2648,149 @@ document.addEventListener('visibilitychange', () => {
     }
 
 });
+
+
+   
+/* =========================================
+   CINEMATIC HERO PARTICLES
+========================================= */
+
+const hero = document.querySelector('.hero');
+const particleCanvas = document.getElementById('heroParticles');
+const heroGlow = document.getElementById('heroGlow');
+
+const ctx = particleCanvas.getContext('2d');
+
+const reducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+).matches;
+
+let particles = [];
+let animationFrame;
+let canvasWidth = 0;
+let canvasHeight = 0;
+
+function resizeHeroCanvas() {
+
+    const rect = hero.getBoundingClientRect();
+
+    canvasWidth = rect.width;
+    canvasHeight = rect.height;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    particleCanvas.width = canvasWidth * dpr;
+    particleCanvas.height = canvasHeight * dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const particleCount = window.innerWidth < 600 ? 20 : 55;
+
+    particles = Array.from({ length: particleCount }, () => ({
+        x: Math.random() * canvasWidth,
+        y: Math.random() * canvasHeight,
+        radius: Math.random() * 1.8 + .5,
+        speed: Math.random() * .35 + .12,
+        opacity: Math.random() * .55 + .15
+    }));
+
+}
+
+function drawHeroParticles() {
+
+    if (document.hidden) {
+        animationFrame = null;
+        return;
+    }
+
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+    particles.forEach(p => {
+
+        p.y -= p.speed;
+
+        if (p.y < 0) {
+            p.y = canvasHeight;
+            p.x = Math.random() * canvasWidth;
+        }
+
+        ctx.beginPath();
+
+        ctx.arc(
+            p.x,
+            p.y,
+            p.radius,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle = `rgba(255,145,75,${p.opacity})`;
+
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = '#f07828';
+
+        ctx.fill();
+
+    });
+
+    ctx.shadowBlur = 0;
+
+    animationFrame = requestAnimationFrame(drawHeroParticles);
+
+}
+
+if (!reducedMotion) {
+
+    resizeHeroCanvas();
+    drawHeroParticles();
+
+    window.addEventListener('resize', resizeHeroCanvas);
+
+    document.addEventListener('visibilitychange', () => {
+
+        if (document.hidden) {
+
+            cancelAnimationFrame(animationFrame);
+            animationFrame = null;
+
+        } else if (!animationFrame) {
+
+            drawHeroParticles();
+
+        }
+
+    });
+
+}
+
+/* Interactive hero lighting */
+
+if (finePointer) {
+
+    hero.addEventListener('mousemove', e => {
+
+        const rect = hero.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        heroGlow.style.setProperty('--glow-x', x + 'px');
+        heroGlow.style.setProperty('--glow-y', y + 'px');
+
+    });
+
+}
+
+/* Floating navigation */
+
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', () => {
+
+    navbar.classList.toggle('scrolled', window.scrollY > 70);
+
+}, { passive: true });
+
 
 
 /* =========================================
