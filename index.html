@@ -1833,6 +1833,250 @@ footer {
 }
 
    
+/* =========================================
+   OBSIDIAN HVAC — PREMIUM VISUAL POLISH
+========================================= */
+
+:root {
+    --orange: #f07828;
+    --orange-light: #ffb477;
+    --surface: #111111;
+    --surface-light: #191919;
+    --soft-border: rgba(255,255,255,.09);
+}
+
+/* Smoother page movement */
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    background: #080808;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Refined section spacing */
+
+.section {
+    padding: clamp(85px, 10vw, 140px) 0;
+}
+
+.container {
+    width: min(1320px, 90%);
+}
+
+/* Navigation glass effect */
+
+.navbar {
+    background: rgba(8,8,8,.78);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    transition: background .3s ease,
+                border-color .3s ease;
+}
+
+.nav-links a {
+    position: relative;
+    padding: 10px 0;
+    color: #c9c9c9;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 2px;
+    width: 0;
+    height: 2px;
+    background: var(--orange);
+    transition: width .3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.logo {
+    letter-spacing: -1.5px;
+}
+
+/* Premium buttons */
+
+.btn-primary,
+.nav-cta {
+    border-radius: 4px;
+    transition: all .35s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(240,120,40,.22);
+}
+
+.btn-text {
+    transition: color .3s ease;
+}
+
+.btn-text:hover {
+    color: var(--orange-light);
+}
+
+/* Refined hero typography */
+
+.hero h1 {
+    font-size: clamp(58px, 9vw, 112px);
+    line-height: .94;
+    letter-spacing: -5px;
+}
+
+.hero-description {
+    max-width: 540px;
+    line-height: 1.9;
+    color: rgba(255,255,255,.78);
+}
+
+/* Section headings */
+
+.section-heading,
+.intro-big {
+    text-wrap: balance;
+}
+
+.section-label {
+    letter-spacing: 3.5px;
+    font-weight: 700;
+}
+
+/* Services card polish */
+
+.service-card {
+    border-radius: 14px;
+    border-color: rgba(255,255,255,.10);
+    box-shadow: 0 12px 35px rgba(0,0,0,.18);
+}
+
+.service-card:hover {
+    border-color: rgba(240,120,40,.8);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.35),
+        0 0 25px rgba(240,120,40,.09);
+}
+
+/* Project image polish */
+
+.project-card {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.project-image {
+    filter: saturate(.82);
+    transition: transform .8s ease,
+                filter .5s ease;
+}
+
+.project-card:hover .project-image {
+    filter: saturate(1.08);
+}
+
+/* Introduction and philosophy */
+
+.intro {
+    background:
+        radial-gradient(
+            ellipse at 90% 50%,
+            rgba(240,120,40,.055),
+            transparent 45%
+        ),
+        #0c0c0c;
+}
+
+.intro-big {
+    line-height: 1.12;
+}
+
+.intro-side p {
+    color: #aaa;
+    line-height: 2;
+}
+
+/* Technical feature sections */
+
+.why-item,
+.tech-grid > *,
+.intro-grid > * {
+    transition: transform .35s ease;
+}
+
+.why-item:hover {
+    transform: translateX(6px);
+}
+
+/* Final call to action */
+
+.final-cta {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(240,120,40,.13),
+            transparent 55%
+        ),
+        #101010;
+    border-top: 1px solid var(--soft-border);
+    border-bottom: 1px solid var(--soft-border);
+}
+
+/* Footer */
+
+footer {
+    background: #050505;
+    border-top: 1px solid rgba(240,120,40,.22);
+    padding: 65px 0;
+}
+
+.footer-brand {
+    letter-spacing: -1px;
+}
+
+.footer-copy {
+    line-height: 2.1;
+}
+
+/* Better mobile typography */
+
+@media(max-width: 600px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .hero h1 {
+        font-size: clamp(48px, 13vw, 72px);
+        letter-spacing: -3px;
+    }
+
+    .section-heading {
+        letter-spacing: -2px;
+    }
+
+    .section {
+        padding: 85px 0;
+    }
+
+    .nav-links {
+        border-radius: 12px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+
+}
+
+   
 </style>
 </head>
 
