@@ -1832,246 +1832,160 @@ footer {
     }
 }
 
+
    
 /* =========================================
-   OBSIDIAN HVAC — PREMIUM VISUAL POLISH
+   FLOATING BOOK NOW CTA
 ========================================= */
 
-:root {
-    --orange: #f07828;
-    --orange-light: #ffb477;
-    --surface: #111111;
-    --surface-light: #191919;
-    --soft-border: rgba(255,255,255,.09);
-}
+.floating-book {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 999;
 
-/* Smoother page movement */
+    display: flex;
+    align-items: center;
+    gap: 13px;
 
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 100px;
-}
+    padding: 13px 19px;
 
-body {
-    background: #080808;
-    -webkit-font-smoothing: antialiased;
-}
+    background: linear-gradient(
+        135deg,
+        #ff9b4b,
+        #f07828
+    );
 
-/* Refined section spacing */
+    color: #090909;
 
-.section {
-    padding: clamp(85px, 10vw, 140px) 0;
-}
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 50px;
 
-.container {
-    width: min(1320px, 90%);
-}
-
-/* Navigation glass effect */
-
-.navbar {
-    background: rgba(8,8,8,.78);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    transition: background .3s ease,
-                border-color .3s ease;
-}
-
-.nav-links a {
-    position: relative;
-    padding: 10px 0;
-    color: #c9c9c9;
-}
-
-.nav-links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 2px;
-    width: 0;
-    height: 2px;
-    background: var(--orange);
-    transition: width .3s ease;
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.logo {
-    letter-spacing: -1.5px;
-}
-
-/* Premium buttons */
-
-.btn-primary,
-.nav-cta {
-    border-radius: 4px;
-    transition: all .35s ease;
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(240,120,40,.22);
-}
-
-.btn-text {
-    transition: color .3s ease;
-}
-
-.btn-text:hover {
-    color: var(--orange-light);
-}
-
-/* Refined hero typography */
-
-.hero h1 {
-    font-size: clamp(58px, 9vw, 112px);
-    line-height: .94;
-    letter-spacing: -5px;
-}
-
-.hero-description {
-    max-width: 540px;
-    line-height: 1.9;
-    color: rgba(255,255,255,.78);
-}
-
-/* Section headings */
-
-.section-heading,
-.intro-big {
-    text-wrap: balance;
-}
-
-.section-label {
-    letter-spacing: 3.5px;
-    font-weight: 700;
-}
-
-/* Services card polish */
-
-.service-card {
-    border-radius: 14px;
-    border-color: rgba(255,255,255,.10);
-    box-shadow: 0 12px 35px rgba(0,0,0,.18);
-}
-
-.service-card:hover {
-    border-color: rgba(240,120,40,.8);
     box-shadow:
-        0 20px 50px rgba(0,0,0,.35),
-        0 0 25px rgba(240,120,40,.09);
+        0 8px 30px rgba(240,120,40,.25),
+        0 0 0 0 rgba(240,120,40,.35);
+
+    animation: bookFloat 4s ease-in-out infinite,
+               bookGlow 3s ease-out infinite;
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease;
 }
 
-/* Project image polish */
+.floating-book:hover {
+    transform: translateY(-5px) scale(1.03);
 
-.project-card {
-    border-radius: 14px;
-    overflow: hidden;
+    box-shadow:
+        0 14px 40px rgba(240,120,40,.38);
 }
 
-.project-image {
-    filter: saturate(.82);
-    transition: transform .8s ease,
-                filter .5s ease;
+.book-icon {
+    width: 37px;
+    height: 37px;
+
+    display: grid;
+    place-items: center;
+
+    background: rgba(0,0,0,.10);
+    border-radius: 50%;
 }
 
-.project-card:hover .project-image {
-    filter: saturate(1.08);
+.book-icon svg {
+    width: 20px;
+    height: 20px;
 }
 
-/* Introduction and philosophy */
-
-.intro {
-    background:
-        radial-gradient(
-            ellipse at 90% 50%,
-            rgba(240,120,40,.055),
-            transparent 45%
-        ),
-        #0c0c0c;
+.book-label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
-.intro-big {
-    line-height: 1.12;
+.book-label small {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
 }
 
-.intro-side p {
-    color: #aaa;
-    line-height: 2;
+.book-label strong {
+    font-size: 14px;
+    letter-spacing: 1.5px;
 }
 
-/* Technical feature sections */
-
-.why-item,
-.tech-grid > *,
-.intro-grid > * {
-    transition: transform .35s ease;
+.book-arrow {
+    font-size: 21px;
+    font-weight: 700;
+    transition: transform .3s ease;
 }
 
-.why-item:hover {
-    transform: translateX(6px);
+.floating-book:hover .book-arrow {
+    transform: translate(3px,-3px);
 }
 
-/* Final call to action */
+/* Floating motion */
 
-.final-cta {
-    position: relative;
-    overflow: hidden;
-    background:
-        radial-gradient(
-            circle at 50% 100%,
-            rgba(240,120,40,.13),
-            transparent 55%
-        ),
-        #101010;
-    border-top: 1px solid var(--soft-border);
-    border-bottom: 1px solid var(--soft-border);
+@keyframes bookFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-7px);
+    }
 }
 
-/* Footer */
+/* Orange pulse */
 
-footer {
-    background: #050505;
-    border-top: 1px solid rgba(240,120,40,.22);
-    padding: 65px 0;
+@keyframes bookGlow {
+    0% {
+        box-shadow: 0 8px 30px rgba(240,120,40,.25),
+                    0 0 0 0 rgba(240,120,40,.3);
+    }
+
+    70% {
+        box-shadow: 0 8px 30px rgba(240,120,40,.25),
+                    0 0 0 12px rgba(240,120,40,0);
+    }
+
+    100% {
+        box-shadow: 0 8px 30px rgba(240,120,40,.25),
+                    0 0 0 0 rgba(240,120,40,0);
+    }
 }
 
-.footer-brand {
-    letter-spacing: -1px;
+/* Pulse decoration */
+
+.book-pulse {
+    position: absolute;
+    inset: -5px;
+    border: 1px solid rgba(240,120,40,.4);
+    border-radius: 50px;
+    pointer-events: none;
 }
 
-.footer-copy {
-    line-height: 2.1;
-}
-
-/* Better mobile typography */
+/* Mobile */
 
 @media(max-width: 600px) {
 
-    .container {
-        width: 90%;
+    .floating-book {
+        right: 16px;
+        bottom: 18px;
+        padding: 11px 15px;
+        gap: 9px;
     }
 
-    .hero h1 {
-        font-size: clamp(48px, 13vw, 72px);
-        letter-spacing: -3px;
+    .book-icon {
+        width: 33px;
+        height: 33px;
     }
 
-    .section-heading {
-        letter-spacing: -2px;
+    .book-label small {
+        font-size: 7px;
     }
 
-    .section {
-        padding: 85px 0;
-    }
-
-    .nav-links {
-        border-radius: 12px;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+    .book-label strong {
+        font-size: 12px;
     }
 
 }
@@ -3881,6 +3795,32 @@ document.querySelectorAll('img').forEach(img => {
 });
 
 </script>
+
+   
+<!-- FLOATING BOOK NOW BUTTON -->
+
+<a href="#contact" class="floating-book">
+
+    <span class="book-pulse"></span>
+
+    <span class="book-icon">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="5" width="18" height="16" rx="2"/>
+            <path d="M16 3v4M8 3v4M3 10h18"/>
+            <path d="m9 15 2 2 4-4"/>
+        </svg>
+    </span>
+
+    <span class="book-label">
+        <small>READY FOR BETTER COMFORT?</small>
+        <strong>BOOK NOW</strong>
+    </span>
+
+    <span class="book-arrow">↗</span>
+
+</a>
+
 
 </body>
 </html>
