@@ -1991,6 +1991,58 @@ footer {
 }
 
    
+/* DASHBOARD PORTAL NAVIGATION */
+
+.nav-divider {
+    height: 1px;
+    background: rgba(255,255,255,.12);
+    margin: 8px 0;
+}
+
+.nav-section-label {
+    display: block;
+    color: #ffad65;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    padding: 7px 0;
+}
+
+.nav-links .dashboard-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,.75);
+    font-size: 12px;
+    transition: .3s ease;
+}
+
+.nav-links .dashboard-link:hover {
+    color: #ffad65;
+    padding-left: 6px;
+}
+
+.nav-links .dashboard-link span {
+    color: #ffad65;
+}
+
+/* Mobile menu */
+@media(max-width:768px) {
+    .nav-divider {
+        margin: 13px 0 8px;
+    }
+
+    .nav-section-label {
+        margin-bottom: 5px;
+    }
+
+    .nav-links .dashboard-link {
+        padding: 12px 0;
+    }
+}
+
+   
 </style>
 </head>
 
