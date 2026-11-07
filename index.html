@@ -3866,6 +3866,51 @@ document.querySelectorAll('img').forEach(img => {
 
 });
 
+   
+// DASHBOARD DEMO ACCESS
+
+const demoModal = document.getElementById("demoModal");
+const continueDemo = document.getElementById("continueDemo");
+const cancelDemo = document.getElementById("cancelDemo");
+
+let selectedDashboard = "";
+
+document.querySelectorAll(".dashboard-link").forEach(link => {
+    link.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        selectedDashboard = this.dataset.dashboard;
+
+        demoModal.classList.add("active");
+        document.body.style.overflow = "hidden";
+    });
+});
+
+continueDemo.addEventListener("click", function() {
+    if (!selectedDashboard) return;
+
+    window.location.href = selectedDashboard;
+});
+
+function closeDemoModal() {
+    demoModal.classList.remove("active");
+    document.body.style.overflow = "";
+    selectedDashboard = "";
+}
+
+cancelDemo.addEventListener("click", closeDemoModal);
+
+demoModal.querySelector(".demo-modal-backdrop")
+    .addEventListener("click", closeDemoModal);
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape" &&
+        demoModal.classList.contains("active")) {
+        closeDemoModal();
+    }
+});
+
+
 </script>
 
    
