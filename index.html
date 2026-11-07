@@ -3867,48 +3867,82 @@ document.querySelectorAll('img').forEach(img => {
 });
 
    
-// DASHBOARD DEMO ACCESS
+
+/* =====================================
+   OBSIDIAN DASHBOARD DEMO ACCESS
+===================================== */
+
+let selectedDashboard = "";
 
 const demoModal = document.getElementById("demoModal");
 const continueDemo = document.getElementById("continueDemo");
 const cancelDemo = document.getElementById("cancelDemo");
 
-let selectedDashboard = "";
+if (demoModal && continueDemo && cancelDemo) {
 
-document.querySelectorAll(".dashboard-link").forEach(link => {
-    link.addEventListener("click", function(event) {
+    // OPEN DEMO WARNING
+    document.addEventListener("click", function(event) {
+
+        const dashboardLink = event.target.closest(".dashboard-link");
+
+        if (!dashboardLink) return;
+
         event.preventDefault();
 
-        selectedDashboard = this.dataset.dashboard;
+        selectedDashboard = dashboardLink.dataset.dashboard;
+
+        if (!selectedDashboard) {
+            console.error("Dashboard destination is missing.");
+            return;
+        }
 
         demoModal.classList.add("active");
         document.body.style.overflow = "hidden";
+
+    }, true);
+
+    // CONTINUE TO DASHBOARD
+    continueDemo.addEventListener("click", function() {
+
+        if (!selectedDashboard) return;
+
+        window.location.href = selectedDashboard;
+
     });
-});
 
-continueDemo.addEventListener("click", function() {
-    if (!selectedDashboard) return;
+    // CLOSE POPUP
+    function closeDemoModal() {
 
-    window.location.href = selectedDashboard;
-});
+        demoModal.classList.remove("active");
 
-function closeDemoModal() {
-    demoModal.classList.remove("active");
-    document.body.style.overflow = "";
-    selectedDashboard = "";
+        document.body.style.overflow = "";
+
+        selectedDashboard = "";
+
+    }
+
+    cancelDemo.addEventListener("click", closeDemoModal);
+
+    // CLICK OUTSIDE
+    const modalBackdrop = demoModal.querySelector(".demo-modal-backdrop");
+
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener("click", closeDemoModal);
+    }
+
+    // ESCAPE KEY
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+            closeDemoModal();
+        }
+
+    });
+
+} else {
+    console.error("Dashboard demo popup HTML is missing.");
 }
 
-cancelDemo.addEventListener("click", closeDemoModal);
-
-demoModal.querySelector(".demo-modal-backdrop")
-    .addEventListener("click", closeDemoModal);
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape" &&
-        demoModal.classList.contains("active")) {
-        closeDemoModal();
-    }
-});
 
 
 </script>
