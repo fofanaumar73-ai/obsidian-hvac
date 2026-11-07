@@ -1,0 +1,1548 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101114">
+<title>Obsidian | Command Centre</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+:root {
+    --bg: #0d0e11;
+    --panel: rgba(255,255,255,.045);
+    --panel-hover: rgba(255,255,255,.075);
+    --border: rgba(255,255,255,.085);
+    --border-light: rgba(255,255,255,.14);
+    --white: #f5f4f2;
+    --muted: #85868e;
+    --orange: #f07828;
+    --orange-light: #ffb16d;
+    --green: #55d6a0;
+    --red: #ff7474;
+    --blue: #8eafff;
+    --sidebar-width: 258px;
+    --radius: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button { cursor: pointer; }
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--orange-light);
+    outline-offset: 4px;
+}
+
+a { color: inherit; text-decoration: none; }
+
+::selection {
+    background: rgba(240,120,40,.35);
+    color: white;
+}
+
+/* AMBIENT LIQUID BACKGROUND */
+
+.ambient {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: .17;
+    animation: orbFloat 16s ease-in-out infinite alternate;
+}
+
+.orb-one {
+    width: 420px;
+    height: 420px;
+    background: #a84918;
+    top: -220px;
+    left: 15%;
+}
+
+.orb-two {
+    width: 380px;
+    height: 380px;
+    background: #414b78;
+    bottom: -230px;
+    right: 5%;
+    animation-delay: -6s;
+}
+
+.orb-three {
+    width: 240px;
+    height: 240px;
+    background: #8e3914;
+    top: 45%;
+    right: 30%;
+    opacity: .08;
+    animation-delay: -10s;
+}
+
+@keyframes orbFloat {
+    from { transform: translate3d(-20px,-15px,0) scale(1); }
+    to { transform: translate3d(50px,35px,0) scale(1.2); }
+}
+
+/* GLOBAL GLASS */
+
+.glass {
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.075),
+        rgba(255,255,255,.018)
+    );
+    border: 1px solid var(--border);
+    backdrop-filter: blur(26px) saturate(145%);
+    -webkit-backdrop-filter: blur(26px) saturate(145%);
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.19),
+        inset 0 1px rgba(255,255,255,.075);
+}
+
+.glass-hover {
+    transition: transform .35s ease, border-color .35s ease,
+                background .35s ease, box-shadow .35s ease;
+}
+
+.glass-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,173,101,.28);
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.09),
+        rgba(255,255,255,.025)
+    );
+    box-shadow: 0 22px 55px rgba(0,0,0,.27),
+                0 0 30px rgba(240,120,40,.055);
+}
+
+/* APP LAYOUT */
+
+.app {
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: var(--sidebar-width);
+    padding: 25px 17px 19px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    background: rgba(15,16,19,.79);
+    border-right: 1px solid var(--border);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 10px 30px;
+}
+
+.brand-symbol {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    color: #251308;
+    font-family: 'Manrope', sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    background: linear-gradient(145deg,#ffd0a4,#f07828 65%,#bd4d13);
+    box-shadow: 0 0 28px rgba(240,120,40,.24),
+                inset 0 1px rgba(255,255,255,.7);
+}
+
+.brand-name {
+    font: 800 15px 'Manrope', sans-serif;
+    letter-spacing: 2px;
+}
+
+.brand-sub {
+    font-size: 9px;
+    letter-spacing: 2.1px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.menu-caption {
+    padding: 14px 12px 9px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #6d6f78;
+    letter-spacing: 2px;
+}
+
+.nav-list {
+    display: grid;
+    gap: 5px;
+}
+
+.nav-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 13px;
+    border: 1px solid transparent;
+    border-radius: 13px;
+    background: transparent;
+    color: #9698a1;
+    text-align: left;
+    font-size: 12px;
+    transition: .3s ease;
+}
+
+.nav-link i {
+    width: 18px;
+    height: 18px;
+    stroke-width: 1.7;
+}
+
+.nav-link:hover {
+    color: white;
+    background: rgba(255,255,255,.045);
+}
+
+.nav-link.active {
+    color: var(--orange-light);
+    border-color: rgba(240,120,40,.18);
+    background: linear-gradient(100deg,rgba(240,120,40,.16),rgba(240,120,40,.035));
+    box-shadow: inset 3px 0 var(--orange),
+                0 5px 20px rgba(240,120,40,.04);
+}
+
+.nav-count {
+    margin-left: auto;
+    font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 20px;
+    color: #ffbd83;
+    background: rgba(240,120,40,.15);
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.demo-label {
+    margin: 16px 4px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid rgba(240,120,40,.19);
+    border-radius: 12px;
+    background: rgba(240,120,40,.065);
+    color: var(--orange-light);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.demo-pulse {
+    width: 7px;
+    height: 7px;
+    background: var(--orange);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--orange);
+    animation: pulse 1.7s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: .35; transform: scale(.7); }
+}
+
+.profile-mini {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 17px 7px 0;
+    border-top: 1px solid var(--border);
+}
+
+.avatar {
+    width: 37px;
+    height: 37px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: linear-gradient(135deg,#ffb16d,#9d4318);
+    color: #261309;
+    font-weight: 800;
+    font-size: 11px;
+}
+
+.profile-name { font-size: 11px; font-weight: 700; }
+.profile-role { color: var(--muted); font-size: 9px; margin-top: 4px; }
+
+.main {
+    margin-left: var(--sidebar-width);
+    padding: 28px 35px 55px;
+    min-width: 0;
+}
+
+/* TOPBAR */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 34px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.page-kicker {
+    color: var(--orange-light);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 7px;
+}
+
+.page-title {
+    font: 800 clamp(23px,3vw,31px) 'Manrope',sans-serif;
+    letter-spacing: -1.2px;
+}
+
+.page-subtitle {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.date-chip, .icon-btn {
+    height: 41px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--panel);
+    color: #c8c8ce;
+}
+
+.date-chip {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 0 13px;
+    font-size: 10px;
+}
+
+.icon-btn {
+    width: 41px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    transition: .3s;
+}
+
+.icon-btn:hover {
+    color: var(--orange-light);
+    border-color: rgba(240,120,40,.35);
+    background: rgba(240,120,40,.08);
+}
+
+.icon-btn i { width: 17px; }
+
+.notification-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    top: 8px;
+    right: 9px;
+    background: var(--orange);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--orange);
+}
+
+.menu-toggle {
+    display: none;
+}
+
+/* WELCOME BANNER */
+
+.welcome-banner {
+    position: relative;
+    overflow: hidden;
+    padding: 26px 29px;
+    border-radius: 23px;
+    margin-bottom: 27px;
+    background:
+        radial-gradient(ellipse at 90% 15%,rgba(255,166,91,.2),transparent 40%),
+        linear-gradient(110deg,rgba(240,120,40,.13),rgba(255,255,255,.035));
+    border: 1px solid rgba(255,173,101,.16);
+    box-shadow: inset 0 1px rgba(255,255,255,.08);
+}
+
+.welcome-banner::after {
+    content: "O";
+    position: absolute;
+    right: 35px;
+    top: -60px;
+    font: 800 220px 'Manrope',sans-serif;
+    color: rgba(255,255,255,.025);
+    transform: rotate(-12deg);
+    pointer-events: none;
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--orange-light);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.welcome-banner h2 {
+    font: 800 clamp(21px,3vw,28px) 'Manrope',sans-serif;
+    margin-top: 12px;
+}
+
+.welcome-banner p {
+    color: #b5b3b1;
+    font-size: 11px;
+    margin-top: 8px;
+    max-width: 510px;
+    line-height: 1.8;
+}
+
+/* SECTION HEADERS */
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 28px 0 15px;
+}
+
+.section-heading h2 {
+    font: 700 14px 'Manrope',sans-serif;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+/* STAT CARDS */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 15px;
+}
+
+.stat-card {
+    position: relative;
+    overflow: hidden;
+    padding: 19px;
+    border-radius: var(--radius);
+    animation: cardIn .7s both;
+}
+
+.stat-card:nth-child(2) { animation-delay: .08s; }
+.stat-card:nth-child(3) { animation-delay: .16s; }
+.stat-card:nth-child(4) { animation-delay: .24s; }
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.stat-label {
+    color: #a1a1a8;
+    font-size: 10px;
+}
+
+.stat-icon {
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    color: var(--orange-light);
+    background: rgba(240,120,40,.12);
+    border: 1px solid rgba(240,120,40,.12);
+}
+
+.stat-icon i { width: 16px; }
+
+.stat-number {
+    font: 800 clamp(21px,2.4vw,28px) 'Manrope',sans-serif;
+    margin-top: 20px;
+    letter-spacing: -1px;
+}
+
+.stat-bottom {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 9px;
+    font-size: 9px;
+    color: var(--muted);
+}
+
+.positive { color: var(--green); }
+.warning-text { color: #eeb66c; }
+
+.stat-glow {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    right: -45px;
+    bottom: -52px;
+    border-radius: 50%;
+    background: var(--orange);
+    filter: blur(45px);
+    opacity: .13;
+}
+
+/* ANALYTICS GRID */
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: minmax(0,1.7fr) minmax(235px,.85fr);
+    gap: 15px;
+}
+
+.panel {
+    padding: 21px;
+    border-radius: var(--radius);
+    min-width: 0;
+}
+
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.panel-heading h3 {
+    font: 700 12px 'Manrope',sans-serif;
+}
+
+.panel-heading p {
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 5px;
+}
+
+.period-select {
+    padding: 8px 10px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: #d2d0ce;
+    font-size: 9px;
+    outline: none;
+}
+
+.period-select option {
+    background: #191a1e;
+}
+
+.chart-summary {
+    margin-top: 22px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.chart-total {
+    font: 800 26px 'Manrope',sans-serif;
+    letter-spacing: -1px;
+}
+
+.chart-growth {
+    color: var(--green);
+    font-size: 9px;
+}
+
+.revenue-chart {
+    width: 100%;
+    height: 205px;
+    display: block;
+    margin-top: 18px;
+    overflow: visible;
+}
+
+.chart-grid-line {
+    stroke: rgba(255,255,255,.075);
+    stroke-width: 1;
+    stroke-dasharray: 3 5;
+}
+
+.chart-line {
+    fill: none;
+    stroke: #ff9a51;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: drawLine 2s ease forwards .3s;
+    filter: drop-shadow(0 0 7px rgba(240,120,40,.4));
+}
+
+@keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+}
+
+.chart-area {
+    opacity: 0;
+    animation: fadeArea 1.5s ease forwards .6s;
+}
+
+@keyframes fadeArea {
+    to { opacity: 1; }
+}
+
+.chart-point {
+    fill: #ffad65;
+    stroke: #24150d;
+    stroke-width: 3;
+    cursor: pointer;
+}
+
+.chart-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 9px;
+    margin-top: 4px;
+}
+
+/* SERVICE PERFORMANCE */
+
+.service-list {
+    display: grid;
+    gap: 21px;
+    margin-top: 25px;
+}
+
+.service-row {
+    display: grid;
+    gap: 9px;
+}
+
+.service-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 10px;
+}
+
+.service-info span:last-child {
+    color: #d9d7d4;
+}
+
+.progress-track {
+    height: 6px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.07);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: var(--progress);
+    border-radius: inherit;
+    background: linear-gradient(90deg,#d45c1b,#ffb16d);
+    box-shadow: 0 0 12px rgba(240,120,40,.35);
+    transform-origin: left;
+    animation: progressIn 1.2s ease both;
+}
+
+@keyframes progressIn {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+/* LOWER GRID */
+
+.lower-grid {
+    display: grid;
+    grid-template-columns: minmax(0,1.45fr) minmax(230px,.85fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* BOOKINGS */
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 18px -21px -21px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    padding: 13px 20px;
+    background: rgba(255,255,255,.025);
+    color: #797b84;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .7px;
+}
+
+td {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255,255,255,.045);
+    color: #ceced2;
+    font-size: 10px;
+}
+
+.customer {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.customer-avatar {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(255,255,255,.08);
+    color: #ffbd8a;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.customer-name { font-weight: 600; }
+.customer-email { color: var(--muted); font-size: 8px; margin-top: 3px; }
+
+.status {
+    display: inline-flex;
+    padding: 6px 9px;
+    border-radius: 30px;
+    font-size: 8px;
+    font-weight: 600;
+}
+
+.status.confirmed {
+    color: var(--green);
+    background: rgba(85,214,160,.1);
+}
+
+.status.pending {
+    color: #efbd71;
+    background: rgba(239,189,113,.1);
+}
+
+.status.completed {
+    color: var(--blue);
+    background: rgba(142,175,255,.1);
+}
+
+/* ACTIVITY */
+
+.activity-list {
+    display: grid;
+    gap: 21px;
+    margin-top: 23px;
+}
+
+.activity {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.activity-icon {
+    width: 33px;
+    height: 33px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(240,120,40,.14);
+    border-radius: 11px;
+    color: var(--orange-light);
+    background: rgba(240,120,40,.09);
+}
+
+.activity-icon i { width: 14px; }
+
+.activity-copy {
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.activity-copy small {
+    display: block;
+    color: var(--muted);
+    font-size: 8px;
+    margin-top: 4px;
+}
+
+/* DEMO FOOTNOTE */
+
+.demo-footnote {
+    text-align: center;
+    margin-top: 28px;
+    color: #686a73;
+    font-size: 9px;
+    letter-spacing: .5px;
+}
+
+/* NOTIFICATION POPOVER */
+
+.notification-wrap {
+    position: relative;
+}
+
+.notification-popover {
+    display: none;
+    position: absolute;
+    z-index: 80;
+    right: 0;
+    top: 52px;
+    width: 275px;
+    padding: 17px;
+    border-radius: 17px;
+    background: rgba(28,29,33,.96);
+    border: 1px solid var(--border-light);
+    box-shadow: 0 20px 50px rgba(0,0,0,.4);
+    backdrop-filter: blur(25px);
+}
+
+.notification-popover.open {
+    display: block;
+    animation: cardIn .25s ease;
+}
+
+.notification-popover h4 {
+    font: 700 12px 'Manrope',sans-serif;
+    margin-bottom: 14px;
+}
+
+.notification-item {
+    padding: 11px 0;
+    border-top: 1px solid var(--border);
+    color: #d0cfd0;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.notification-item small {
+    display: block;
+    color: var(--muted);
+    margin-top: 4px;
+    font-size: 8px;
+}
+
+/* MOBILE OVERLAY */
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0,0,0,.55);
+    backdrop-filter: blur(4px);
+}
+
+.sidebar-overlay.show { display: block; }
+
+/* RESPONSIVE */
+
+@media(max-width:1200px) {
+    .stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .main { padding: 25px 23px 45px; }
+}
+
+@media(max-width:900px) {
+    :root { --sidebar-width: 225px; }
+    .analytics-grid, .lower-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:700px) {
+    .sidebar {
+        transform: translateX(-105%);
+        width: 265px;
+    }
+
+    .sidebar.open { transform: translateX(0); }
+
+    .main {
+        margin-left: 0;
+        padding: 19px 15px 35px;
+    }
+
+    .menu-toggle { display: grid; }
+
+    .topbar { margin-bottom: 25px; }
+
+    .page-title { font-size: 23px; }
+    .page-subtitle { max-width: 220px; line-height: 1.6; }
+
+    .date-chip { display: none; }
+
+    .welcome-banner { padding: 23px 20px; }
+
+    .welcome-banner::after {
+        right: -25px;
+        font-size: 150px;
+    }
+}
+
+@media(max-width:420px) {
+    .stats-grid { gap: 9px; }
+    .stat-card { padding: 14px; }
+    .stat-number { font-size: 21px; }
+    .stat-label { font-size: 9px; }
+    .stat-icon { width: 31px; height: 31px; }
+    .panel { padding: 16px; }
+    .table-wrap { margin-left: -16px; margin-right: -16px; }
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+
+@media(prefers-reduced-motion:reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="ambient">
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <a href="index.html" class="brand">
+        <div class="brand-symbol">O</div>
+        <div>
+            <div class="brand-name">OBSIDIAN</div>
+            <div class="brand-sub">COMMAND CENTRE</div>
+        </div>
+    </a>
+
+    <div class="menu-caption">MAIN MENU</div>
+
+    <nav class="nav-list">
+        <button class="nav-link active" data-page="Overview">
+            <i data-lucide="layout-dashboard"></i> Overview
+        </button>
+        <button class="nav-link" data-page="Bookings">
+            <i data-lucide="calendar-days"></i> Bookings
+            <span class="nav-count">17</span>
+        </button>
+        <button class="nav-link" data-page="Customers">
+            <i data-lucide="users"></i> Customers
+        </button>
+        <button class="nav-link" data-page="Services">
+            <i data-lucide="wind"></i> Services
+        </button>
+        <button class="nav-link" data-page="Projects">
+            <i data-lucide="briefcase-business"></i> Projects
+        </button>
+        <button class="nav-link" data-page="Reviews">
+            <i data-lucide="star"></i> Reviews
+        </button>
+        <button class="nav-link" data-page="Messages">
+            <i data-lucide="messages-square"></i> Messages
+            <span class="nav-count">4</span>
+        </button>
+    </nav>
+
+    <div class="menu-caption">PREFERENCES</div>
+
+    <nav class="nav-list">
+        <button class="nav-link" data-page="Settings">
+            <i data-lucide="settings-2"></i> Settings
+        </button>
+        <button class="nav-link" data-page="Help & Support">
+            <i data-lucide="life-buoy"></i> Help & Support
+        </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="demo-label">
+            <span class="demo-pulse"></span>
+            DEMONSTRATION MODE
+        </div>
+
+        <div class="profile-mini">
+            <div class="avatar">AM</div>
+            <div>
+                <div class="profile-name">Alex Morgan</div>
+                <div class="profile-role">Administrator · Demo</div>
+            </div>
+        </div>
+    </div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open menu">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div>
+                <div class="page-kicker">OBSIDIAN / MANAGEMENT</div>
+                <h1 class="page-title">Overview</h1>
+                <p class="page-subtitle">Your business at a glance. Here's your latest performance.</p>
+            </div>
+        </div>
+
+        <div class="top-actions">
+
+            <div class="date-chip">
+                <i data-lucide="calendar" style="width:14px"></i>
+                <span id="currentDate">Today</span>
+            </div>
+
+            <div class="notification-wrap">
+                <button class="icon-btn" id="notificationButton" aria-label="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="notification-popover" id="notificationPopover">
+                    <h4>Notifications</h4>
+                    <div class="notification-item">
+                        New booking request received.
+                        <small>12 minutes ago</small>
+                    </div>
+                    <div class="notification-item">
+                        A new customer registered.
+                        <small>45 minutes ago</small>
+                    </div>
+                    <div class="notification-item">
+                        New five-star customer review.
+                        <small>2 hours ago</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="avatar">AM</div>
+        </div>
+    </header>
+
+    <!-- WELCOME -->
+    <section class="welcome-banner">
+        <div class="welcome-content">
+            <div class="welcome-tag">
+                <i data-lucide="sparkles" style="width:14px"></i>
+                YOUR BUSINESS COMMAND CENTRE
+            </div>
+            <h2>Good morning, Alex.</h2>
+            <p>
+                Welcome back to your workspace. Monitor your bookings,
+                understand your performance and keep your operations moving.
+            </p>
+        </div>
+    </section>
+
+    <!-- STATISTICS -->
+    <div class="section-heading">
+        <div>
+            <h2>Business overview</h2>
+            <p>A snapshot of your business performance.</p>
+        </div>
+    </div>
+
+    <section class="stats-grid">
+
+        <article class="glass glass-hover stat-card">
+            <div class="stat-top">
+                <span class="stat-label">Total Revenue</span>
+                <span class="stat-icon"><i data-lucide="wallet"></i></span>
+            </div>
+            <div class="stat-number">₦8.45M</div>
+            <div class="stat-bottom">
+                <span class="positive">↗ 12.8%</span>
+                <span>vs previous month</span>
+            </div>
+            <div class="stat-glow"></div>
+        </article>
+
+        <article class="glass glass-hover stat-card">
+            <div class="stat-top">
+                <span class="stat-label">Total Bookings</span>
+                <span class="stat-icon"><i data-lucide="calendar-check"></i></span>
+            </div>
+            <div class="stat-number">248</div>
+            <div class="stat-bottom">
+                <span class="positive">↗ 8.4%</span>
+                <span>vs previous month</span>
+            </div>
+            <div class="stat-glow"></div>
+        </article>
+
+        <article class="glass glass-hover stat-card">
+            <div class="stat-top">
+                <span class="stat-label">Active Customers</span>
+                <span class="stat-icon"><i data-lucide="users"></i></span>
+            </div>
+            <div class="stat-number">186</div>
+            <div class="stat-bottom">
+                <span class="positive">↗ 5.2%</span>
+                <span>vs previous month</span>
+            </div>
+            <div class="stat-glow"></div>
+        </article>
+
+        <article class="glass glass-hover stat-card">
+            <div class="stat-top">
+                <span class="stat-label">Pending Requests</span>
+                <span class="stat-icon"><i data-lucide="clock-3"></i></span>
+            </div>
+            <div class="stat-number">17</div>
+            <div class="stat-bottom">
+                <span class="warning-text">Needs attention</span>
+                <span>awaiting review</span>
+            </div>
+            <div class="stat-glow"></div>
+        </article>
+
+    </section>
+
+    <!-- ANALYTICS -->
+    <div class="section-heading">
+        <div>
+            <h2>Performance analytics</h2>
+            <p>Revenue trends and service distribution.</p>
+        </div>
+    </div>
+
+    <section class="analytics-grid">
+
+        <article class="glass glass-hover panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Revenue performance</h3>
+                    <p>Monthly revenue overview</p>
+                </div>
+
+                <select class="period-select" id="chartPeriod" aria-label="Revenue period">
+                    <option value="year">This year</option>
+                    <option value="six">Last 6 months</option>
+                </select>
+            </div>
+
+            <div class="chart-summary">
+                <div class="chart-total" id="chartTotal">₦8,450,000</div>
+                <span class="chart-growth">↗ 12.8% growth</span>
+            </div>
+
+            <svg class="revenue-chart" viewBox="0 0 700 210" preserveAspectRatio="none" role="img" aria-label="Illustrative revenue trend chart">
+                <defs>
+                    <linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stop-color="#f07828" stop-opacity=".32"/>
+                        <stop offset="100%" stop-color="#f07828" stop-opacity="0"/>
+                    </linearGradient>
+                </defs>
+
+                <line class="chart-grid-line" x1="0" y1="20" x2="700" y2="20"/>
+                <line class="chart-grid-line" x1="0" y1="65" x2="700" y2="65"/>
+                <line class="chart-grid-line" x1="0" y1="110" x2="700" y2="110"/>
+                <line class="chart-grid-line" x1="0" y1="155" x2="700" y2="155"/>
+                <line class="chart-grid-line" x1="0" y1="195" x2="700" y2="195"/>
+
+                <path class="chart-area" fill="url(#areaGradient)"
+                    d="M0 158 C45 145 55 120 100 132 S165 115 200 121 S265 82 300 98 S365 115 400 83 S465 75 500 87 S565 38 600 55 S665 27 700 18 L700 200 L0 200 Z"/>
+
+                <path class="chart-line"
+                    d="M0 158 C45 145 55 120 100 132 S165 115 200 121 S265 82 300 98 S365 115 400 83 S465 75 500 87 S565 38 600 55 S665 27 700 18"/>
+
+                <circle class="chart-point" cx="100" cy="132" r="5"/>
+                <circle class="chart-point" cx="200" cy="121" r="5"/>
+                <circle class="chart-point" cx="300" cy="98" r="5"/>
+                <circle class="chart-point" cx="400" cy="83" r="5"/>
+                <circle class="chart-point" cx="500" cy="87" r="5"/>
+                <circle class="chart-point" cx="600" cy="55" r="5"/>
+                <circle class="chart-point" cx="700" cy="18" r="5"/>
+            </svg>
+
+            <div class="chart-labels" id="chartLabels">
+                <span>May</span><span>Jun</span><span>Jul</span>
+                <span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span>
+            </div>
+        </article>
+
+        <article class="glass glass-hover panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Popular services</h3>
+                    <p>Share of service requests</p>
+                </div>
+                <i data-lucide="chart-no-axes-combined" style="width:17px;color:#ffad65"></i>
+            </div>
+
+            <div class="service-list">
+
+                <div class="service-row">
+                    <div class="service-info">
+                        <span>Air Conditioning</span><span>38%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="--progress:38%"></div>
+                    </div>
+                </div>
+
+                <div class="service-row">
+                    <div class="service-info">
+                        <span>System Installation</span><span>27%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="--progress:27%"></div>
+                    </div>
+                </div>
+
+                <div class="service-row">
+                    <div class="service-info">
+                        <span>Maintenance</span><span>19%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="--progress:19%"></div>
+                    </div>
+                </div>
+
+                <div class="service-row">
+                    <div class="service-info">
+                        <span>Ventilation</span><span>10%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="--progress:10%"></div>
+                    </div>
+                </div>
+
+                <div class="service-row">
+                    <div class="service-info">
+                        <span>Other Services</span><span>6%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" style="--progress:6%"></div>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+
+    </section>
+
+    <!-- BOOKINGS AND ACTIVITY -->
+    <section class="lower-grid">
+
+        <article class="glass panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Recent bookings</h3>
+                    <p>Latest customer appointment requests</p>
+                </div>
+                <button class="icon-btn" aria-label="Booking options" style="width:34px;height:34px">
+                    <i data-lucide="ellipsis"></i>
+                </button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CUSTOMER</th>
+                            <th>SERVICE</th>
+                            <th>DATE</th>
+                            <th>AMOUNT</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="customer">
+                                    <div class="customer-avatar">JW</div>
+                                    <div><div class="customer-name">James Wilson</div><div class="customer-email">james@example.com</div></div>
+                                </div>
+                            </td>
+                            <td>AC Installation</td>
+                            <td>Nov 08</td>
+                            <td>₦185,000</td>
+                            <td><span class="status confirmed">Confirmed</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="customer">
+                                    <div class="customer-avatar">SA</div>
+                                    <div><div class="customer-name">Sarah Adams</div><div class="customer-email">sarah@example.com</div></div>
+                                </div>
+                            </td>
+                            <td>System Maintenance</td>
+                            <td>Nov 09</td>
+                            <td>₦45,000</td>
+                            <td><span class="status pending">Pending</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="customer">
+                                    <div class="customer-avatar">DM</div>
+                                    <div><div class="customer-name">David Miller</div><div class="customer-email">david@example.com</div></div>
+                                </div>
+                            </td>
+                            <td>Ventilation Repair</td>
+                            <td>Nov 10</td>
+                            <td>₦75,000</td>
+                            <td><span class="status confirmed">Confirmed</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="customer">
+                                    <div class="customer-avatar">EC</div>
+                                    <div><div class="customer-name">Emily Carter</div><div class="customer-email">emily@example.com</div></div>
+                                </div>
+                            </td>
+                            <td>Commercial HVAC</td>
+                            <td>Nov 11</td>
+                            <td>₦320,000</td>
+                            <td><span class="status completed">Completed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <article class="glass panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Recent activity</h3>
+                    <p>Latest workspace updates</p>
+                </div>
+                <i data-lucide="activity" style="width:17px;color:#ffad65"></i>
+            </div>
+
+            <div class="activity-list">
+
+                <div class="activity">
+                    <div class="activity-icon"><i data-lucide="calendar-plus"></i></div>
+                    <div class="activity-copy">
+                        New booking received
+                        <small>Central AC installation · 12 minutes ago</small>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-icon"><i data-lucide="user-plus"></i></div>
+                    <div class="activity-copy">
+                        New customer registered
+                        <small>James Wilson · 45 minutes ago</small>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-icon"><i data-lucide="star"></i></div>
+                    <div class="activity-copy">
+                        New customer review
+                        <small>Five-star service rating · 2 hours ago</small>
+                    </div>
+                </div>
+
+                <div class="activity">
+                    <div class="activity-icon"><i data-lucide="banknote"></i></div>
+                    <div class="activity-copy">
+                        Payment recorded
+                        <small>₦185,000 · 3 hours ago</small>
+                    </div>
+                </div>
+
+            </div>
+        </article>
+
+    </section>
+
+    <footer class="demo-footnote">
+        OBSIDIAN HVAC · ADMIN COMMAND CENTRE · DEMONSTRATION ENVIRONMENT · SAMPLE DATA ONLY
+    </footer>
+
+</main>
+</div>
+
+<script>
+/* ICON INITIALIZATION */
+if (window.lucide) {
+    lucide.createIcons();
+}
+
+/* CURRENT DATE */
+document.getElementById("currentDate").textContent =
+    new Intl.DateTimeFormat("en-NG", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    }).format(new Date());
+
+/* MOBILE SIDEBAR */
+const sidebar = document.getElementById("sidebar");
+const menuToggle = document.getElementById("menuToggle");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("show");
+}
+
+menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    sidebarOverlay.classList.toggle("show");
+});
+
+sidebarOverlay.addEventListener("click", closeSidebar);
+
+/* DEMO NAVIGATION */
+document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", () => {
+        document.querySelectorAll(".nav-link").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        link.classList.add("active");
+
+        const page = link.dataset.page;
+
+        if (page !== "Overview") {
+            alert(
+                page + " is part of the OBSIDIAN HVAC dashboard demonstration. " +
+                "This section will be developed in a later stage."
+            );
+        }
+
+        closeSidebar();
+    });
+});
+
+/* NOTIFICATIONS */
+const notificationButton =
+    document.getElementById("notificationButton");
+
+const notificationPopover =
+    document.getElementById("notificationPopover");
+
+notificationButton.addEventListener("click", event => {
+    event.stopPropagation();
+    notificationPopover.classList.toggle("open");
+});
+
+document.addEventListener("click", event => {
+    if (!notificationPopover.contains(event.target) &&
+        !notificationButton.contains(event.target)) {
+        notificationPopover.classList.remove("open");
+    }
+});
+
+/* REVENUE PERIOD DEMO */
+const chartPeriod = document.getElementById("chartPeriod");
+const chartTotal = document.getElementById("chartTotal");
+const chartLabels = document.getElementById("chartLabels");
+
+chartPeriod.addEventListener("change", () => {
+    if (chartPeriod.value === "six") {
+        chartTotal.textContent = "₦6,920,000";
+        chartLabels.innerHTML =
+            "<span>Jun</span><span>Jul</span><span>Aug</span>" +
+            "<span>Sep</span><span>Oct</span><span>Nov</span>";
+    } else {
+        chartTotal.textContent = "₦8,450,000";
+        chartLabels.innerHTML =
+            "<span>May</span><span>Jun</span><span>Jul</span>" +
+            "<span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span>";
+    }
+});
+</script>
+
+</body>
+</html>
